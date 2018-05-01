@@ -50,28 +50,28 @@ resource "aws_security_group" "bastion_host_security_group" {
 
   ingress {
     from_port   = "${var.public_ssh_port}"
-    protocol    = "TCP"
+    protocol    = "tcp"
     to_port     = "${var.public_ssh_port}"
     cidr_blocks = "${var.cidrs}"
   }
 
   egress {
     from_port = "${var.private_ssh_port}"
-    protocol  = "TCP"
+    protocol  = "tcp"
     to_port   = "${var.private_ssh_port}"
   }
 
   egress {
     from_port   = 443
     to_port     = 443
-    protocol    = "TCP"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port   = 80
     to_port     = 80
-    protocol    = "TCP"
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -84,7 +84,7 @@ resource "aws_security_group" "private_instances_security_group" {
 
   ingress {
     from_port = "${var.private_ssh_port}"
-    protocol  = "TCP"
+    protocol  = "tcp"
     to_port   = "${var.private_ssh_port}"
 
     security_groups = [
@@ -178,13 +178,13 @@ resource "aws_lb" "bastion_lb" {
 
 resource "aws_lb_target_group" "bastion_lb_target_group" {
   port        = "${var.public_ssh_port}"
-  protocol    = "TCP"
+  protocol    = "tcp"
   vpc_id      = "${var.vpc_id}"
   target_type = "instance"
 
   health_check {
     port     = "traffic-port"
-    protocol = "TCP"
+    protocol = "tcp"
   }
 
   tags = "${merge(var.tags)}"
@@ -198,7 +198,7 @@ resource "aws_lb_listener" "bastion_lb_listener_22" {
 
   load_balancer_arn = "${aws_lb.bastion_lb.arn}"
   port              = "${var.public_ssh_port}"
-  protocol          = "TCP"
+  protocol          = "tcp"
 }
 
 resource "aws_iam_instance_profile" "bastion_host_profile" {

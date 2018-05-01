@@ -178,13 +178,13 @@ resource "aws_lb" "bastion_lb" {
 
 resource "aws_lb_target_group" "bastion_lb_target_group" {
   port        = "${var.public_ssh_port}"
-  protocol    = "tcp"
+  protocol    = "TCP"
   vpc_id      = "${var.vpc_id}"
   target_type = "instance"
 
   health_check {
     port     = "traffic-port"
-    protocol = "tcp"
+    protocol = "TCP"
   }
 
   tags = "${merge(var.tags)}"
@@ -198,7 +198,7 @@ resource "aws_lb_listener" "bastion_lb_listener_22" {
 
   load_balancer_arn = "${aws_lb.bastion_lb.arn}"
   port              = "${var.public_ssh_port}"
-  protocol          = "tcp"
+  protocol          = "TCP"
 }
 
 resource "aws_iam_instance_profile" "bastion_host_profile" {
